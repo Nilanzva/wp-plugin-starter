@@ -9,4 +9,8 @@ module.exports = {
 	entry: {
 		index: path.resolve( __dirname, 'client/index.js' ),
 	},
+	resolve: {
+		...defaultConfig.resolve,
+		modules: [ path.join( __dirname, 'client' ), 'node_modules' ],
+	},
 };

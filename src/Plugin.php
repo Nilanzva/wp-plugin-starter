@@ -63,6 +63,25 @@ class Plugin {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( WPS_PLUGIN_FILE ), array( $this, 'plugin_action_links' ) );
+		// WooCommerce page.
+		add_filter( 'woocommerce_analytics_report_menu_items', array( $this, 'add_analytics_report_menu_items' ) );
+	}
+
+	/**
+	 * Add "Example" as a Analytics submenu item.
+	 *
+	 * @param array $report_pages Report page menu items.
+	 * @return array Updated report page menu items.
+	 */
+	public function add_analytics_report_menu_items( $report_pages ) {
+		$report_pages[] = array(
+			'id'     => 'example-analytics-report',
+			'title'  => __( 'Example', 'woocommerce-admin' ),
+			'parent' => 'woocommerce-analytics',
+			'path'   => '/example',
+		);
+
+		return $report_pages;
 	}
 
 	/**
@@ -129,12 +148,10 @@ class Plugin {
 			filemtime( plugin_dir_path( WPS_PLUGIN_FILE ) . 'build/index.css' )
 		);
 
-		if (
-			isset( $screen->id )
-			&& 'settings_page_wp-plugin-settings' === $screen->id
-		) {
-			wp_enqueue_style( 'wp-plugin-starter-settings' );
+
+		if ( class_exists( 'Automattic\WooCommerce\Admin\Loader' ) || \Automattic\WooCommerce\Admin\Loader::is_admin_page() ) {
 			wp_enqueue_script( 'wp-plugin-starter-settings' );
+			// wp_enqueue_style( 'wp-plugin-starter-settings' );
 		}
 	}
 

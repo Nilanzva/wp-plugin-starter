@@ -20,6 +20,7 @@
 	},
 	"dependencies": {
 		"@wordpress/element": "2.16.0",
+		"@wordpress/hooks": "2.9.0",
 		"@wordpress/i18n": "3.14.0"
 	},
 	"devDependencies": {
